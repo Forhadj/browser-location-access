@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Live Location Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      text-align: center;
+      padding-top: 50px;
+    }
+    .box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>তোমার লোকেশন নিচ্ছি...</h2>
+    <p id="status">অনুমতি দিন...</p>
+    <p id="location"></p>
+  </div>
+
+  <script>
+    const status = document.getElementById("status");
+    const locationBox = document.getElementById("location");
+
+    function success(position) {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      status.textContent = "লোকেশন পাওয়া গেছে ✅";
+      locationBox.innerHTML = `
+        Latitude: ${latitude} <br>
+        Longitude: ${longitude} <br><br>
+        <a href="https://www.google.com/maps?q=${latitude},${longitude}" target="_blank">🗺️ গুগল ম্যাপে দেখো</a>
+      `;
+    }
+
+    function error() {
+      status.textContent = "লোকেশন পাওয়া যায়নি ❌ (সম্ভবত আপনি Allow দেননি)";
+    }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, error);
+    } else {
+      status.textContent = "আপনার ব্রাউজার লোকেশন সাপোর্ট করে না";
+    }
+  </script>
+</body>
+</html>
